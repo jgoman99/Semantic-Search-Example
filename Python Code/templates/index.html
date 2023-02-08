@@ -1,0 +1,41 @@
+<!-- templates/index.html -->
+<html>
+  <head>
+    <script>
+      function loadMore() {
+        var start = document.querySelectorAll('.item').length;
+        fetch('/more/' + start)
+          .then(response => response.text())
+          .then(html => {
+            document.querySelector('#items').insertAdjacentHTML('beforeend', html);
+          });
+      }
+    </script>
+  </head>
+  <body>
+  <h3>Semantic Search Example using Reddit</h3>
+  <p>A very basic semantic search on a small dataset. Unfortunately, I can't use pinecone.io for vector hosting as I am on a free pythonanywhere account and pinecone.io is not whitelisted.</p>
+                <p>Example Searches: Room for rent, the vibes are off, foul odor</p>
+      <form action="{{ url_for('search') }}" method="post">
+          <input type="text" name="search_query" placeholder="Search...">
+                    <button type="submit">Go</button>
+
+
+      </form>
+          
+    <div id="items">
+        {% for item in items %}
+          <div class="item">
+            <blockquote class="reddit-card">
+              <a href="{{ item }}"></a>
+            </blockquote>
+            <script async src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script>
+          </div>
+        {% endfor %}
+    </div>
+    <!-- <button onclick="loadMore()">Load more</button> -->
+  </body>
+</html>
+
+
+
